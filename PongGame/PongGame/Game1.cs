@@ -13,6 +13,7 @@ public class Game1 : Game
     private Paddle _p2;
     private Paddle _p3;
     private Paddle _p4;
+    private Paddle[] _allPlayers;
     private Ball _ball;
 
     public Game1()
@@ -30,13 +31,13 @@ public class Game1 : Game
         _graphics.ApplyChanges();
 
         _ball = new Ball();
-        // Base offset to center walls (walls done manually for now (could not get auto centered walls to work with centering the origin for some reason))
+        // Base offset to center walls (walls done manually for now (could not get auto centered walls to work while centering the origin for some reason))
         int baseOffset = 447; 
-        _p1 = new Paddle(baseOffset, 113, false, Color.Red, 25);
-        _p2 = new Paddle( baseOffset + 15, 113,true, Color.Blue, 25);
-        _p3 = new Paddle(baseOffset + 690, 113, false, Color.Green, -35);
-        _p4 = new Paddle(baseOffset + 15, 773, true, Color.Yellow, -35);
-        
+        _p1 = new Paddle(baseOffset, 113, false, 25, new Player(1, Keys.Q, Keys.A));
+        _p2 = new Paddle( baseOffset + 15, 113,true, 25, new Player(2, Keys.Z, Keys.C));
+        _p3 = new Paddle(baseOffset + 690, 113, false, -35, new Player(3, Keys.E, Keys.D));
+        _p4 = new Paddle(baseOffset + 15, 773, true, -35, new Player(4, Keys.Left, Keys.Right));
+        _allPlayers = new[] {_p1, _p2, _p3, _p4};
         base.Initialize();
     }
 
@@ -58,10 +59,10 @@ public class Game1 : Game
 
         // TODO: Add your update logic here
         _ball.Update(gameTime);
-        _p1.Update(gameTime);
-        _p2.Update(gameTime);
-        _p3.Update(gameTime);
-        _p4.Update(gameTime);
+        _p1.Update(gameTime, _allPlayers);
+        _p2.Update(gameTime, _allPlayers);
+        _p3.Update(gameTime, _allPlayers);
+        _p4.Update(gameTime, _allPlayers);
         
         base.Update(gameTime);
     }
