@@ -13,6 +13,7 @@ public class Game1 : Game
     private Paddle _p2;
     private Paddle _p3;
     private Paddle _p4;
+    private Ball _ball;
 
     public Game1()
     {
@@ -28,10 +29,13 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
         _graphics.ApplyChanges();
 
-        _p1 = new Paddle(500, 113, false, Color.Red);
-        _p2 = new Paddle( 500, 100,true, Color.Blue);
-        _p3 = new Paddle(1166, 100, false, Color.Green);
-        _p4 = new Paddle(500, 773, true, Color.Yellow);
+        _ball = new Ball();
+        // Base offset to center walls (walls done manually for now (could not get auto centered walls to work with centering the origin for some reason))
+        int baseOffset = 447; 
+        _p1 = new Paddle(baseOffset, 113, false, Color.Red, 25);
+        _p2 = new Paddle( baseOffset + 15, 113,true, Color.Blue, 25);
+        _p3 = new Paddle(baseOffset + 690, 113, false, Color.Green, -35);
+        _p4 = new Paddle(baseOffset + 15, 773, true, Color.Yellow, -35);
         
         base.Initialize();
     }
@@ -53,6 +57,7 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
+        _ball.Update(gameTime);
         _p1.Update(gameTime);
         _p2.Update(gameTime);
         _p3.Update(gameTime);
@@ -67,6 +72,7 @@ public class Game1 : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
+        _ball.Draw(_spriteBatch);
         _p1.Draw(_spriteBatch);
         _p2.Draw(_spriteBatch);
         _p3.Draw(_spriteBatch);

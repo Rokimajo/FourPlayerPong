@@ -11,9 +11,8 @@ public class Wall
     private Rectangle _rectangle;
     private bool _IsHorizontal;
 
-    public Wall(bool isHorizontal, Color color, int posX = 0, int posY = 0)
+    public Wall(bool isHorizontal, int posX = 0, int posY = 0)
     {
-        _color = color;
         _IsHorizontal = isHorizontal;
         _rectangle = new Rectangle(posX, posY, (!_IsHorizontal ? 15 : (int)(0.75 * Globals.ScreenHeight)), (!_IsHorizontal ? (int)(0.75 * Globals.ScreenHeight) : 15));
     }
@@ -25,6 +24,6 @@ public class Wall
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Globals.Pixel, _rectangle, null, _color);
+        spriteBatch.Draw(Globals.Pixel, _rectangle, null, Color.White);
     }
 }
