@@ -58,47 +58,33 @@ public class Ball
                 if (!paddle._player.IsEliminated())
                     paddle._player.DecreaseLife();
                 ResetBall();
+                break;
             }
             
             if (_rectangle.Intersects(paddle.boundingBox))
             {
-                Vector2 normal;
-                float hitPosition;
+                _speed += _speedIncrease;
 
-                _speed += _speedIncrease; // Speed ball up on bounce
+                float relativeIntersect;
+                float normalizedIntersect;
+
+                if (paddle._player.PlayerNumber == 1 || paddle._player.PlayerNumber == 3)
+                {
+                    relativeIntersect = (_position.Y + _rectangle.Height / 2) - (paddle.boundingBox.Y + paddle.boundingBox.Height / 2);
+                    normalizedIntersect = relativeIntersect / (paddle.boundingBox.Height / 2);
+                    
+                    _velocity.X = -_velocity.X;
+                    _velocity.Y = normalizedIntersect * _speed;
+                }
+                else
+                { 
+                    relativeIntersect = (_position.X + _rectangle.Width / 2) - (paddle.boundingBox.X + paddle.boundingBox.Width / 2);
+                    normalizedIntersect = relativeIntersect / (paddle.boundingBox.Width / 2);
+        
+                    _velocity.Y = -_velocity.Y;
+                    _velocity.X = normalizedIntersect * _speed;
+                }
                 
-                if (paddle._player.PlayerNumber == 1) // Left Paddle
-                {
-                    normal = -Vector2.UnitX;
-                    _position.X = paddle.boundingBox.Right;
-                    hitPosition = (_position.Y - paddle.boundingBox.Center.Y) / (paddle.boundingBox.Height / 2);
-                }
-                else if (paddle._player.PlayerNumber == 2) // Top Paddle
-                {
-                    normal = -Vector2.UnitY;
-                    _position.Y = paddle.boundingBox.Bottom;
-                    hitPosition = (_position.X - paddle.boundingBox.Center.X) / (paddle.boundingBox.Width / 2);
-                }
-                else if (paddle._player.PlayerNumber == 3) // Right Paddle
-                {
-                    normal = Vector2.UnitX;
-                    _position.X = paddle.boundingBox.Left - _rectangle.Width;
-                    hitPosition = (_position.Y - paddle.boundingBox.Center.Y) / (paddle.boundingBox.Height / 2);
-                }
-                else // Bottom Paddle
-                {
-                    normal = Vector2.UnitY;
-                    _position.Y = paddle.boundingBox.Top - _rectangle.Height;
-                    hitPosition = (_position.X - paddle.boundingBox.Center.X) / (paddle.boundingBox.Width / 2);
-                }
-
-                // Calculate ball reflection
-                float deflectionAngle = hitPosition * MathHelper.ToRadians(45);
-                Matrix rotationMatrix = Matrix.CreateRotationZ(deflectionAngle);
-                normal = Vector2.Transform(normal, rotationMatrix);
-                normal.Normalize();
-
-                _velocity = Vector2.Reflect(_velocity, normal);
                 _velocity = Vector2.Normalize(_velocity) * _speed;
             }
         }

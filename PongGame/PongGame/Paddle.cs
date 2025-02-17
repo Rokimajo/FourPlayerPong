@@ -11,7 +11,7 @@ public class Paddle
     private float _moveSpeed;
     private Vector2 _position;
     public Rectangle boundingBox;
-    private bool _IsHorizontal;
+    public bool _IsHorizontal;
     public Wall paddleWall;
     public Player _player;
     public bool AI;
