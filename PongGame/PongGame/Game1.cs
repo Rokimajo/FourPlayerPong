@@ -9,6 +9,7 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private SpriteFont _font;
 
     private Paddle _p1;
     private Paddle _p2;
@@ -34,10 +35,10 @@ public class Game1 : Game
         _ball = new Ball();
         // Base offset to center walls (walls done manually for now (could not get auto centered walls to work while centering the origin for some reason))
         int baseOffset = 447; 
-        _p1 = new Paddle(baseOffset, 113, false, 25, new Player(1, Keys.Q, Keys.A));
-        _p2 = new Paddle( baseOffset + 15, 113,true, 25, new Player(2, Keys.Z, Keys.C));
-        _p3 = new Paddle(baseOffset + 690, 113, false, -35, new Player(3, Keys.E, Keys.D));
-        _p4 = new Paddle(baseOffset + 15, 773, true, -35, new Player(4, Keys.Left, Keys.Right));
+        _p1 = new Paddle(baseOffset, 113, false, 35, new Player(1, Keys.Q, Keys.A));
+        _p2 = new Paddle( baseOffset + 15, 113,true, 35, new Player(2, Keys.Z, Keys.C));
+        _p3 = new Paddle(baseOffset + 690, 113, false, -45, new Player(3, Keys.E, Keys.D));
+        _p4 = new Paddle(baseOffset + 15, 773, true, -45, new Player(4, Keys.Left, Keys.Right));
         _allPlayers = new[] {_p1, _p2, _p3, _p4};
         base.Initialize();
     }
@@ -45,6 +46,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _font = Content.Load<SpriteFont>("PongFont");
         // Set white pixel texture to use in paddles and balls, etc.
         Globals.Pixel = new Texture2D(GraphicsDevice, 1, 1);
         Globals.Pixel.SetData(new[] { Color.White });
@@ -59,11 +61,11 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
-        _ball.Update(gameTime);
-        _p1.Update(gameTime, _allPlayers);
-        _p2.Update(gameTime, _allPlayers);
-        _p3.Update(gameTime, _allPlayers);
-        _p4.Update(gameTime, _allPlayers);
+        _ball.Update(gameTime, _allPlayers);
+        _p1.Update(gameTime, _allPlayers, _ball);
+        _p2.Update(gameTime, _allPlayers, _ball);
+        _p3.Update(gameTime, _allPlayers, _ball);
+        _p4.Update(gameTime, _allPlayers, _ball);
         
         base.Update(gameTime);
     }
@@ -75,10 +77,10 @@ public class Game1 : Game
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
         _ball.Draw(_spriteBatch);
-        _p1.Draw(_spriteBatch);
-        _p2.Draw(_spriteBatch);
-        _p3.Draw(_spriteBatch);
-        _p4.Draw(_spriteBatch);
+        _p1.Draw(_spriteBatch, _font);
+        _p2.Draw(_spriteBatch, _font);
+        _p3.Draw(_spriteBatch, _font);
+        _p4.Draw(_spriteBatch, _font);
         _spriteBatch.End();
         base.Draw(gameTime);
     }

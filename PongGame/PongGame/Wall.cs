@@ -8,22 +8,18 @@ public class Wall
 {
     private Color _color;
     private Vector2 _position;
-    private Rectangle _rectangle;
-    private bool _IsHorizontal;
+    public Rectangle boundingBox;
+    public bool IsHorizontal;
 
     public Wall(bool isHorizontal, int posX = 0, int posY = 0)
     {
-        _IsHorizontal = isHorizontal;
-        _rectangle = new Rectangle(posX, posY, (!_IsHorizontal ? 15 : (int)(0.75 * Globals.ScreenHeight)), (!_IsHorizontal ? (int)(0.75 * Globals.ScreenHeight) : 15));
+        IsHorizontal = isHorizontal;
+        boundingBox = new Rectangle(posX, posY, (!IsHorizontal ? 15 : (int)(0.75 * Globals.ScreenHeight)), (!IsHorizontal ? (int)(0.75 * Globals.ScreenHeight) : 15));
     }
-
-    public void Update(GameTime gameTime)
-    {
-        
-    }
+    
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Globals.Pixel, _rectangle, null, Color.White);
+        spriteBatch.Draw(Globals.Pixel, boundingBox, null, Color.White);
     }
 }
