@@ -47,10 +47,6 @@ public class Ball
 
     public void Update(GameTime gameTime, Paddle[] allPlayers)
     {
-        _position += _velocity;
-        _rectangle.X = (int) _position.X;
-        _rectangle.Y = (int) _position.Y;
-
         foreach (Paddle paddle in allPlayers)
         {
             if (_rectangle.Intersects(paddle.paddleWall.boundingBox))
@@ -88,6 +84,10 @@ public class Ball
                 _velocity = Vector2.Normalize(_velocity) * _speed;
             }
         }
+        
+        _position += _velocity;
+        _rectangle.X = (int) _position.X;
+        _rectangle.Y = (int) _position.Y;
     }
 
     public void Draw(SpriteBatch spriteBatch)
